@@ -1,0 +1,24 @@
+# .NET build output / IDE
+bin/
+obj/
+.vs/
+*.user
+*.suo
+
+# Uploaded receipt files (personal data, not source)
+**/storage/
+
+# Node
+node_modules/
+dist/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Local env files
+.env
+.env.*
+!.env.example

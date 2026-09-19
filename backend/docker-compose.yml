@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: resit-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: resitDb
+      POSTGRES_USER: resit
+      POSTGRES_PASSWORD: resit
+    ports:
+      - "5432:5432"
+    volumes:
+      - resit-postgres-data:/var/lib/postgresql/data
+
+volumes:
+  resit-postgres-data:

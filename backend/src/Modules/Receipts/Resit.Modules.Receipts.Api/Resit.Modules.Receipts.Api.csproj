@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Resit.Modules.Receipts.Application\Resit.Modules.Receipts.Application.csproj" />
+    <ProjectReference Include="..\Resit.Modules.Receipts.Infrastructure\Resit.Modules.Receipts.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Identity\Resit.Modules.Identity\Resit.Modules.Identity.csproj" />
+  </ItemGroup>
+</Project>

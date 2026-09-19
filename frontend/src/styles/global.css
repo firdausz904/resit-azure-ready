@@ -1,0 +1,28 @@
+@tailwind utilities;
+
+/* Resit theme: swap Metronic's blue for a teal primary. Everything else stays stock Metronic. */
+:root,
+.light {
+  --tw-primary: #0d9488;
+  --tw-primary-active: #0f766e;
+  --tw-primary-light: #f0fdfa;
+  --tw-primary-clarity: rgba(13, 148, 136, 0.2);
+  --tw-primary-inverse: #ffffff;
+  --tw-primary-box-shadow: 0px 4px 12px 0px rgba(13, 148, 136, 0.35);
+
+  --tw-page-bg: #f6f6f9;
+  --tw-header-height: 60px;
+  --tw-sidebar-width: 90px;
+}
+
+body {
+  background-color: var(--tw-page-bg);
+  color: var(--tw-gray-700);
+  font-family: Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  display: flex;
+  min-height: 100vh;
+}

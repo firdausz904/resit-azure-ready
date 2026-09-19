@@ -1,0 +1,47 @@
+name: Deploy extraction service
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "python-extraction-service/**"
+      - ".github/workflows/deploy-extraction.yml"
+  workflow_dispatch: {}
+
+env:
+  ACR_NAME: ${{ vars.ACR_NAME }}
+  IMAGE_NAME: resit-extraction
+  RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
+  WEBAPP_NAME: ${{ vars.EXTRACTION_APP_NAME }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to Azure
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Builds the image inside Azure Container Registry (no local Docker needed on the runner)
+      # and tags it with the commit SHA so the webapp update below always pulls the new image.
+      - name: Build image in ACR
+        run: |
+          az acr build \
+            --registry ${{ env.ACR_NAME }} \
+            --image ${{ env.IMAGE_NAME }}:${{ github.sha }} \
+            --image ${{ env.IMAGE_NAME }}:latest \
+            ./python-extraction-service
+
+      - name: Point App Service at the new image
+        run: |
+          az webapp config container set \
+            --resource-group ${{ env.RESOURCE_GROUP }} \
+            --name ${{ env.WEBAPP_NAME }} \
+            --docker-custom-image-name ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+      - name: Restart app to pull the new image
+        run: |
+          az webapp restart --resource-group ${{ env.RESOURCE_GROUP }} --name ${{ env.WEBAPP_NAME }}
